@@ -2,6 +2,7 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
+using UnityEngine;
 
 [UpdateInGroup(typeof(GhostInputSystemGroup))]
 partial struct NetcodePlayerInputSystem : ISystem
@@ -13,7 +14,7 @@ partial struct NetcodePlayerInputSystem : ISystem
         state.RequireForUpdate<NetcodePlayerInput>();
     }
 
-    [BurstCompile]
+    //[BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         float2 move = PlayerInputBridge.Move;

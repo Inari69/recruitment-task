@@ -11,6 +11,7 @@ public class PlayerInputBridge : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log($"Awake: {this.GetType().Name}");
         _inputActions = new InputSystem_Actions();
     }
 
@@ -28,5 +29,7 @@ public class PlayerInputBridge : MonoBehaviour
     {
         Vector2 move = _inputActions.Player.Move.ReadValue<Vector2>();
         Move = move;
+        
+        Debug.Log($"Move: {move}");
     }
 }
