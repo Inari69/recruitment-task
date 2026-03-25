@@ -16,7 +16,7 @@ partial struct TestClientSystem : ISystem
     //[BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        /*if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             Entity rpcEntity = state.EntityManager.CreateEntity();
             state.EntityManager.AddComponentData(rpcEntity, new ChatMessageRpc
@@ -26,7 +26,7 @@ partial struct TestClientSystem : ISystem
             });
             state.EntityManager.AddComponentData(rpcEntity, new SendRpcCommandRequest());
             Debug.Log("Sending Rpc");
-        }*/
+        }
     }
 
     [BurstCompile]
