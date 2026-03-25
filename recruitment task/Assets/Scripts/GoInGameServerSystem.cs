@@ -38,6 +38,11 @@ partial struct GoInGameServerSystem : ISystem
                 NetworkId =  networkId.Value,
             });
             
+            entityCommandBuffer.AppendToBuffer(receiveRpcCommandRequest.ValueRO.SourceConnection, new LinkedEntityGroup
+            {
+                Value = playerEntity,
+            });
+            
             entityCommandBuffer.DestroyEntity(entity);
         }
         
