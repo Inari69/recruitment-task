@@ -102,36 +102,21 @@ public class MainMenu : MonoBehaviour
 
         Entity rpc = em.CreateEntity();
 
-        if (_chatTargetId == -1 || _chatTargetName == nicknameText.GetComponent<TMP_Text>().text)
+
+        var msg = new ChatMessageRpc
         {
-            var msg = new ChatMessageRpc
-            {
-                SenderNickname =  nicknameText.GetComponent<TMP_Text>().text,
-                TargetID = _chatTargetId,
-                Message = chatInputTextGameObject.GetComponent<TMP_Text>().text
-            };
+            SenderNickname =  nicknameText.GetComponent<TMP_Text>().text,
+            TargetID = _chatTargetId,
+            Message = chatInputTextGameObject.GetComponent<TMP_Text>().text
+        };
+        
+        
 
-            em.AddComponentData(rpc, msg);
-            em.AddComponentData(rpc, new SendRpcCommandRequest());
+        em.AddComponentData(rpc, msg);
+        em.AddComponentData(rpc, new SendRpcCommandRequest());
 
-            Debug.Log("Chat RPC sent");
-        }
-        else
-        {
-            var msg = new ChatMessageRpc
-            {
-                SenderNickname =  nicknameText.GetComponent<TMP_Text>().text,
-                TargetID = _chatTargetId,
-                Message = chatInputTextGameObject.GetComponent<TMP_Text>().text
-            };
-            
-            UpdateChatOutput(nicknameText.GetComponent<TMP_Text>().text,chatInputTextGameObject.GetComponent<TMP_Text>().text,_chatTargetName);
+        Debug.Log("Chat RPC sent");
 
-            em.AddComponentData(rpc, msg);
-            em.AddComponentData(rpc, new SendRpcCommandRequest());
-
-            Debug.Log("Chat RPC sent");
-        }
         
 
     }
@@ -139,11 +124,6 @@ public class MainMenu : MonoBehaviour
     public void UpdateChatOutput(string senderNickname, string message, int receiverId)
     {
         chatOutputTextGameObject.GetComponent<TMP_Text>().text += "[" + senderNickname + "] -> [" + (receiverId == -1 ? "Everyone" : nicknameText.GetComponent<TMP_Text>().text) + "]: " + message + "\n";
-    }
-    
-    public void UpdateChatOutput(string senderNickname, string message, string receiverName)
-    {
-        chatOutputTextGameObject.GetComponent<TMP_Text>().text += "[" + senderNickname + "] -> [" + receiverName + "]: " + message + "\n";
     }
 
     private void OnScoreboardPressed(InputAction.CallbackContext context)
