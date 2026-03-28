@@ -188,6 +188,7 @@ public class MainMenu : MonoBehaviour
         networkStreamDriver.ValueRW.Connect(clientWorld.EntityManager, connectNetworkEndpoint);
         
         menu.SetActive(false);
+        chatWindow.SetActive(true);
     }
 
     private void TogglePlayerList()
