@@ -14,6 +14,8 @@ public partial struct ChatClientSystem : ISystem
                      .WithAll<ReceiveRpcCommandRequest>()
                      .WithEntityAccess())
         {
+            int targetId = rpc.ValueRO.TargetID;
+            string senderNickname = rpc.ValueRO.SenderNickname.ToString();
             string message = rpc.ValueRO.Message.ToString();
 
             Debug.Log("Received chat: " + message);
@@ -21,7 +23,7 @@ public partial struct ChatClientSystem : ISystem
             MainMenu menu = Object.FindFirstObjectByType<MainMenu>();
             if (menu != null)
             {
-                menu.UpdateChatOutput(message);
+                menu.UpdateChatOutput(senderNickname, message, targetId);
             }
             
             ecb.DestroyEntity(entity);

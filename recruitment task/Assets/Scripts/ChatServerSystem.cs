@@ -23,6 +23,7 @@ public partial struct ChatServerSystem : ISystem
 
                     em.AddComponentData(rpcEntity, new ChatMessageRpc
                     {
+                        SenderNickname = msg.SenderNickname,
                         TargetID = msg.TargetID,
                         Message = msg.Message
                     });

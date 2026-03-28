@@ -88,6 +88,7 @@ public class MainMenu : MonoBehaviour
 
         var msg = new ChatMessageRpc
         {
+            SenderNickname =  nicknameText.GetComponent<TMP_Text>().text,
             TargetID = _chatTargetId,
             Message = chatInputTextGameObject.GetComponent<TMP_Text>().text
         };
@@ -98,9 +99,9 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Chat RPC sent");
     }
 
-    public void UpdateChatOutput(string message)
+    public void UpdateChatOutput(string senderNickname, string message, int receiverId)
     {
-        chatOutputTextGameObject.GetComponent<TMP_Text>().text += (message + "\n");
+        chatOutputTextGameObject.GetComponent<TMP_Text>().text += "[" + senderNickname + "] -> [" + (receiverId == -1 ? "Everyone" : nicknameText.GetComponent<TMP_Text>().text) + "]: " + message + "\n";
     }
 
     private void OnScoreboardPressed(InputAction.CallbackContext context)
