@@ -18,7 +18,7 @@ public class PlayerListItem : MonoBehaviour
 
     public void OnClick()
     {
-        _menu.SetChatTarget(networkId);
+        _menu.SetChatTarget(networkId,_nicknameText.text);
     }
 
     public void SetNickname(string nickname)

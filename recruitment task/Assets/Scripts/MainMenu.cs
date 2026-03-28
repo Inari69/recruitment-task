@@ -26,6 +26,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject players;
     [SerializeField] private GameObject playerListItemPrefab;
     private int _chatTargetId = -1;
+    private string _chatTargetName;
     private bool _isHost;
     private InputSystem_Actions _inputActions;
 
@@ -80,9 +81,10 @@ public class MainMenu : MonoBehaviour
         player.GetComponent<PlayerListItem>().SetNetworkId(Id);
     }
 
-    public void SetChatTarget(int networkId)
+    public void SetChatTarget(int networkId, string name)
     {
         _chatTargetId = networkId;
+        _chatTargetName = name;
         Debug.Log($"SetChatTarget {_chatTargetId}");
     }
 
@@ -100,22 +102,48 @@ public class MainMenu : MonoBehaviour
 
         Entity rpc = em.CreateEntity();
 
-        var msg = new ChatMessageRpc
+        if (_chatTargetId == -1 || _chatTargetName == nicknameText.GetComponent<TMP_Text>().text)
         {
-            SenderNickname =  nicknameText.GetComponent<TMP_Text>().text,
-            TargetID = _chatTargetId,
-            Message = chatInputTextGameObject.GetComponent<TMP_Text>().text
-        };
+            var msg = new ChatMessageRpc
+            {
+                SenderNickname =  nicknameText.GetComponent<TMP_Text>().text,
+                TargetID = _chatTargetId,
+                Message = chatInputTextGameObject.GetComponent<TMP_Text>().text
+            };
 
-        em.AddComponentData(rpc, msg);
-        em.AddComponentData(rpc, new SendRpcCommandRequest());
+            em.AddComponentData(rpc, msg);
+            em.AddComponentData(rpc, new SendRpcCommandRequest());
 
-        Debug.Log("Chat RPC sent");
+            Debug.Log("Chat RPC sent");
+        }
+        else
+        {
+            var msg = new ChatMessageRpc
+            {
+                SenderNickname =  nicknameText.GetComponent<TMP_Text>().text,
+                TargetID = _chatTargetId,
+                Message = chatInputTextGameObject.GetComponent<TMP_Text>().text
+            };
+            
+            UpdateChatOutput(nicknameText.GetComponent<TMP_Text>().text,chatInputTextGameObject.GetComponent<TMP_Text>().text,_chatTargetName);
+
+            em.AddComponentData(rpc, msg);
+            em.AddComponentData(rpc, new SendRpcCommandRequest());
+
+            Debug.Log("Chat RPC sent");
+        }
+        
+
     }
 
     public void UpdateChatOutput(string senderNickname, string message, int receiverId)
     {
         chatOutputTextGameObject.GetComponent<TMP_Text>().text += "[" + senderNickname + "] -> [" + (receiverId == -1 ? "Everyone" : nicknameText.GetComponent<TMP_Text>().text) + "]: " + message + "\n";
+    }
+    
+    public void UpdateChatOutput(string senderNickname, string message, string receiverName)
+    {
+        chatOutputTextGameObject.GetComponent<TMP_Text>().text += "[" + senderNickname + "] -> [" + receiverName + "]: " + message + "\n";
     }
 
     private void OnScoreboardPressed(InputAction.CallbackContext context)
