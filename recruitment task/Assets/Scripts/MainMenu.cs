@@ -34,6 +34,7 @@ public class MainMenu : MonoBehaviour
     private void OnNicknameConfirmed()
     {
         string nickname = nicknameText.GetComponent<TMP_Text>().text;
+        PlayerDataBridge.Nickname = nickname;
 
         if (_isHost)
         {
@@ -65,6 +66,35 @@ public class MainMenu : MonoBehaviour
     private void OnScoreboardPressed(InputAction.CallbackContext context)
     {
         TogglePlayerList();
+        //RequestPlayerList();
+    }
+    
+    public static void RequestPlayerList()
+    {
+        World clientWorld = null;
+
+        foreach (var world in World.All)
+        {
+            if (world.Flags == WorldFlags.GameClient)
+            {
+                clientWorld = world;
+                break;
+            }
+        }
+
+        if (clientWorld == null)
+        {
+            Debug.LogError("ClientWorld not found!");
+            return;
+        }
+
+        var em = clientWorld.EntityManager;
+
+        Entity rpc = em.CreateEntity();
+        em.AddComponentData(rpc, new RequestPlayerListRpc());
+        em.AddComponentData(rpc, new SendRpcCommandRequest());
+
+        Debug.Log("RequestPlayerList SENT");
     }
 
     private void OpenInsertNicknameWindow(bool hostGame)
@@ -107,7 +137,15 @@ public class MainMenu : MonoBehaviour
 
     private void TogglePlayerList()
     {
-        playerList.SetActive(!playerList.activeSelf);
+        if (playerList.activeSelf == true)
+        {
+            playerList.SetActive(false);
+        }
+        else
+        {
+            playerList.SetActive(true);
+            RequestPlayerList();
+        }
     }
 
     private void StartServer(string nickname)

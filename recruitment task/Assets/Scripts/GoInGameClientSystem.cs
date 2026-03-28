@@ -1,4 +1,5 @@
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.NetCode;
 using UnityEngine;
@@ -16,16 +17,21 @@ partial struct GoInGameClientSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
+
         foreach ((RefRO<NetworkId> networkId, Entity entity) 
                  in SystemAPI.Query<RefRO<NetworkId>>().WithNone<NetworkStreamInGame>().WithEntityAccess())
         {
             entityCommandBuffer.AddComponent<NetworkStreamInGame>(entity);
             Debug.Log("setting client as ingame");
-            
+        
             Entity rpcEntity = entityCommandBuffer.CreateEntity();
-            entityCommandBuffer.AddComponent(rpcEntity, new GoInGameRequestRpc());
+            entityCommandBuffer.AddComponent(rpcEntity, new GoInGameRequestRpc
+            {
+                Nickname = PlayerDataBridge.Nickname
+            });
             entityCommandBuffer.AddComponent(rpcEntity, new SendRpcCommandRequest());
         }
+
         entityCommandBuffer.Playback(state.EntityManager);
     }
 
@@ -38,5 +44,5 @@ partial struct GoInGameClientSystem : ISystem
 
 public struct GoInGameRequestRpc : IRpcCommand
 {
-    
+    public FixedString64Bytes Nickname;
 }
