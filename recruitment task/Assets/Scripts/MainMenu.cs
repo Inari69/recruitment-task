@@ -21,6 +21,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject nicknameText;
     [SerializeField] private GameObject chatInputTextGameObject;
     [SerializeField] private GameObject chatOutputTextGameObject;
+    [SerializeField] private GameObject chatWindow;
 
     [SerializeField] private GameObject players;
     [SerializeField] private GameObject playerListItemPrefab;
@@ -239,5 +240,6 @@ public class MainMenu : MonoBehaviour
         networkStreamDriver.ValueRW.Connect(clientWorld.EntityManager, NetworkEndpoint.LoopbackIpv4.WithPort(port));
         
         menu.SetActive(false);
+        chatWindow.SetActive(true);
     }
 }

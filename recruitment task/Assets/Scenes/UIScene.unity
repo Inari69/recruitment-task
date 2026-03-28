@@ -1166,7 +1166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &944672041
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1183,13 +1183,13 @@ RectTransform:
   - {fileID: 1664976057}
   - {fileID: 1486958570}
   - {fileID: 127916586}
-  m_Father: {fileID: 2044441014}
+  m_Father: {fileID: 1952442255}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 104, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &967399500
 GameObject:
   m_ObjectHideFlags: 0
@@ -3304,6 +3304,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 944672041}
   - {fileID: 1490926684}
   - {fileID: 2044441014}
   m_Father: {fileID: 825835635}
@@ -3334,6 +3335,7 @@ MonoBehaviour:
   nicknameText: {fileID: 1871971467}
   chatInputTextGameObject: {fileID: 1931020242}
   chatOutputTextGameObject: {fileID: 1664976056}
+  chatWindow: {fileID: 944672040}
   players: {fileID: 127007620}
   playerListItemPrefab: {fileID: 1456893485}
 --- !u!1 &1985959523
@@ -3579,7 +3581,6 @@ RectTransform:
   - {fileID: 1985959524}
   - {fileID: 967399501}
   - {fileID: 127007621}
-  - {fileID: 944672041}
   m_Father: {fileID: 1952442255}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3684,6 +3685,10 @@ PrefabInstance:
       objectReference: {fileID: 1952442254}
     - target: {fileID: 4550332051516471419, guid: 1ec747c957ee7204e9baaf91a32c4f38, type: 3}
       propertyPath: NetworkId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4550332051516471419, guid: 1ec747c957ee7204e9baaf91a32c4f38, type: 3}
+      propertyPath: networkId
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6883974919226077843, guid: 1ec747c957ee7204e9baaf91a32c4f38, type: 3}

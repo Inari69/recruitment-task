@@ -26,8 +26,8 @@ public class PlayerListItem : MonoBehaviour
         _nicknameText.text = nickname;
     }
     
-    public void SetNetworkId(int networkId)
+    public void SetNetworkId(int id)
     {
-        networkId = networkId;
+        networkId = id;
     }
 }
