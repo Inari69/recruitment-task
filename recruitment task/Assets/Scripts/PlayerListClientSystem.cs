@@ -14,6 +14,12 @@ partial struct PlayerListClientSystem : ISystem
         {
             Debug.Log($"PLAYER: {rpc.ValueRO.Nickname} | ID: {rpc.ValueRO.NetworkId}");
 
+            MainMenu menu = Object.FindFirstObjectByType<MainMenu>();
+            if (menu != null)
+            {
+                menu.AddPlayerToList(rpc.ValueRO.Nickname.ToString(), rpc.ValueRO.NetworkId);
+            }
+            
             ecb.DestroyEntity(entity);
         }
 

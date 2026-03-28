@@ -21,6 +21,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject nicknameText;
     [SerializeField] private GameObject chatInputTextGameObject;
     [SerializeField] private GameObject chatOutputTextGameObject;
+
+    [SerializeField] private GameObject players;
+    [SerializeField] private GameObject playerListItemPrefab;
     private int _chatTargetId = -1;
     private bool _isHost;
     private InputSystem_Actions _inputActions;
@@ -61,9 +64,19 @@ public class MainMenu : MonoBehaviour
         _inputActions.Disable();
     }
 
-    private void Update()
+    private void ClearPlayerList()
     {
-        
+        for (int i = 1; i < players.transform.childCount; i++)
+        {
+            Destroy(players.transform.GetChild(i).gameObject);
+        }
+    }
+
+    public void AddPlayerToList(string name, int Id)
+    {
+        GameObject player = Instantiate(playerListItemPrefab, players.transform);
+        player.GetComponent<PlayerListItem>().SetNickname(name);
+        player.GetComponent<PlayerListItem>().SetNetworkId(Id);
     }
 
     public void SetChatTarget(int networkId)
@@ -185,6 +198,7 @@ public class MainMenu : MonoBehaviour
         else
         {
             playerList.SetActive(true);
+            ClearPlayerList();
             RequestPlayerList();
         }
     }
