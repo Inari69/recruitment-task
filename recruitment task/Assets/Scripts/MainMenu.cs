@@ -19,6 +19,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject playerList;
     [SerializeField] private GameObject insertNicknameWindow;
     [SerializeField] private GameObject nicknameText;
+    [SerializeField] private GameObject chatInputTextGameObject;
+    [SerializeField] private GameObject chatOutputTextGameObject;
+    private int _chatTargetId = -1;
     private bool _isHost;
     private InputSystem_Actions _inputActions;
 
@@ -61,6 +64,43 @@ public class MainMenu : MonoBehaviour
     private void Update()
     {
         
+    }
+
+    public void SetChatTarget(int networkId)
+    {
+        _chatTargetId = networkId;
+        Debug.Log($"SetChatTarget {_chatTargetId}");
+    }
+
+    public void SendChat()
+    {
+        var world = World.DefaultGameObjectInjectionWorld;
+
+        if (world == null)
+        {
+            Debug.LogError("No client world!");
+            return;
+        }
+
+        var em = world.EntityManager;
+
+        Entity rpc = em.CreateEntity();
+
+        var msg = new ChatMessageRpc
+        {
+            TargetID = _chatTargetId,
+            Message = chatInputTextGameObject.GetComponent<TMP_Text>().text
+        };
+
+        em.AddComponentData(rpc, msg);
+        em.AddComponentData(rpc, new SendRpcCommandRequest());
+
+        Debug.Log("Chat RPC sent");
+    }
+
+    public void UpdateChatOutput(string message)
+    {
+        chatOutputTextGameObject.GetComponent<TMP_Text>().text += (message + "\n");
     }
 
     private void OnScoreboardPressed(InputAction.CallbackContext context)
